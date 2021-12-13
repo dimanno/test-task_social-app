@@ -1,28 +1,52 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
 
 require('dotenv').config();
 
 const {usersRouter, authRouter} = require('./routes')
 const {PORT, MONGO_CONNECT_URI, ALLOWED_ORIGIN, NODE_ENV} = require('./config/config');
 const ErrorHandler = require('./errors/errorHandler');
+const addDefaultUser = require('./handler/default.user');
 
 const app = express();
-
+// middlewares
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+app.use(cors({origin: _configCors}));
+app.use(helmet());
+app.use(rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100 // limit each IP to 100 requests per windowMs
+}));
 
-mongoose.connect(MONGO_CONNECT_URI).then(()=> {
+if (NODE_ENV === 'dev') {
+    const morgan = require('morgan');
+    app.use(morgan('dev'));
+}
+
+mongoose.connect('mongodb://localhost:27017/social_app').then(()=> {
     console.log('mongoDB connect successfully');
 });
-app.use(cors({origin, _configCors}));
-
-app.use('/users', authRouter);
+// routes
+app.use('/auth', authRouter);
 app.use('/users', usersRouter);
+
+// eslint-disable-next-line no-unused-vars
+app.use('*', (err, req, res, next) => {
+    res
+        .status(err.status || 500)
+        .json({
+            message: err.message
+        });
+});
 
 app.listen(PORT, ()=> {
     console.log(`app listen ${PORT}`);
+
+    addDefaultUser()
 });
 
 function _configCors(origin, callback) {

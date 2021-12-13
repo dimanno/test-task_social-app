@@ -1,7 +1,7 @@
 const {messageResponse, statusCodeResponse, constants} = require('../constants');
 const ErrorHandler = require('../errors/errors.handler');
 const {passwordService: {compare}, jwtService} = require('../services');
-const {AuthData} = require('../database');
+const {O_Auth} = require('../models');
 
 module.exports = {
 

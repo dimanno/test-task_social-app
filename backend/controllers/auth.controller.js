@@ -1,6 +1,6 @@
 const {O_Auth} = require('../models');
 const {jwtService: {generateTokenPair}} = require('../services');
-const {userNormalize} = require('../handlers/user.normalize');
+const {userNormalize} = require('../handler');
 const {statusCodeResponse, tokenTypeEnum: {REFRESH, ACCESS}} = require('../constants');
 
 module.exports = {

@@ -1,15 +1,17 @@
-const {User, AuthData, } = require('../database');
+const {User} = require('../models');
+const {O_Auth} = require('../models');
 const {passwordService} = require('../services');
-const {userNormalize:{userNormalize}} = require('../handlers');
+const {userNormalize} = require('../handler');
 const {statusCodeResponse} = require('../constants');
 
 module.exports = {
+
     addUser: async (req, res, next) => {
         try {
-            const {password} = req.body;
-            const hashedPassword = await passwordService.hash(password);
+            // const {password} = req.body;
+            // const hashedPassword = await passwordService.hash(password);
 
-            const newUser = await User.create({...req.body, password: hashedPassword});
+            const newUser = await User.createUserWithHashPassword(req.body);
             const userNormalise = userNormalize(newUser.toJSON());
 
             res.status(statusCodeResponse.CREATED).json(userNormalise);
@@ -55,9 +57,9 @@ module.exports = {
     deleteUser: async (req, res, next) => {
         try {
             const {_id} = req.body;
-console.log(_id)
+            console.log(_id)
             await User.deleteOne({_id});
-            await AuthData.deleteMany({user_id: _id});
+            await O_Auth.deleteMany({user_id: _id});
 
             res.sendStatus(statusCodeResponse.NO_DATA);
         } catch (e) {

@@ -1,4 +1,4 @@
-const {Posts, User} = require('../database');
+const {Posts} = require('../models');
 const {messageResponse, statusCodeResponse} = require('../constants');
 const ErrorHandler = require('../errors/errors.handler');
 

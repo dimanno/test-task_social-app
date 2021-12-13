@@ -1,13 +1,19 @@
 const {Schema, model} = require('mongoose');
 
-const {models_name} = require('../constants');
-const {passwordService} = require('../services');
+const {models_name, userRole} = require('../constants');
+const {passwordService} = require("../services");
 
-const userSchema = new Schema({
+const userSchema = new  Schema({
     name: {
         type: String,
         required: true,
         trim: true
+    },
+    username: {
+        type: String,
+        required: true,
+        trim: true,
+        unique: true
     },
     email: {
         type: String,
@@ -21,9 +27,50 @@ const userSchema = new Schema({
         trim: true,
         select: false
     },
-    age: {
-        type: Number
+    city: {
+        type: String,
     },
-}, {timestamps: true});
+    avatarPicture: {
+        type: String,
+        default: "",
+    },
+    coverPicture: {
+        type: String,
+        default: "",
+    },
+    followers: {
+        type: Array,
+        default: [],
+    },
+    followings: {
+        type: Array,
+        default: [],
+    },
+    role: {
+        type: String,
+        default: userRole.USER,
+        enum: Object.values(userRole)
+    }
 
-module.except = model(models_name.USER, userSchema);
+}, {timestamps:true});
+
+module.exports = userSchema.statics = {
+    async createUserWithHashPassword(userObject) {
+        const hashedPassword = await passwordService.hash(userObject.password);
+
+        return this.create({
+            ...userObject,
+            password: hashedPassword
+        });
+    },
+
+    updateData(user_Id, userDataObject) {
+        return this.findByIdAndUpdate(
+            user_Id,
+            userDataObject,
+            {new: true, runValidators: true}
+        ).lean();
+    },
+}
+
+module.exports = model(models_name.USER, userSchema);

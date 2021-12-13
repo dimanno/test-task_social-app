@@ -1,8 +1,22 @@
 const Joi = require('joi');
 
-const {regExp: {EMAIL_REGEXP, PASSWORD_REGEXP}} = require('../constants');
+const {regExp: {EMAIL_REGEXP, PASSWORD_REGEXP}, userRole} = require('../constants');
 
 const addUser_validator = Joi.object({
+    name: Joi
+        .string()
+        .alphanum()
+        .min(3)
+        .max(30)
+        .trim()
+        .required(),
+    username: Joi
+        .string()
+        .alphanum()
+        .min(2)
+        .max(20)
+        .trim()
+        .required(),
     email: Joi
         .string()
         .regex(EMAIL_REGEXP)
@@ -13,15 +27,11 @@ const addUser_validator = Joi.object({
         .regex(PASSWORD_REGEXP)
         .required()
         .trim(),
-    name: Joi
+    city: Joi
+        .string(),
+    role: Joi
         .string()
-        .alphanum()
-        .min(2)
-        .max(30)
-        .trim()
-        .required(),
-    age: Joi
-        .number()
+        .allow(...Object.values(userRole)),
 });
 
 const updateUserValidator = Joi.object({
@@ -37,8 +47,8 @@ const updateUserValidator = Joi.object({
         .max(30)
         .trim()
         .required(),
-    age: Joi
-        .number()
+    city: Joi
+        .string(),
 
 });
 

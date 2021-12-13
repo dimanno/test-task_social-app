@@ -1,4 +1,4 @@
-const {Posts} = require('../database');
+const {Posts} = require('../models');
 const {statusCodeResponse} = require('../constants');
 
 module.exports = {
