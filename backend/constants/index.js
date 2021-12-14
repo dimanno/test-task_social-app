@@ -5,5 +5,6 @@ module.exports = {
     statusCodeResponse: require('./status.code.response.enum'),
     tokenTypeEnum: require('./tokens.type.enum'),
     models_name: require('./models.name'),
-    userRole: require('./userRoles.enum')
+    userRole: require('./userRoles.enum'),
+    emailAction:require('./email.action.enum')
 };

@@ -1,4 +1,4 @@
-const ErrorHandler = require('../errors/errors.handler');
+const ErrorHandler = require('../errors/errorHandler');
 const {statusCodeResponse} = require('../constants');
 
 module.exports = {

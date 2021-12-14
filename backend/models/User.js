@@ -50,6 +50,11 @@ const userSchema = new  Schema({
         type: String,
         default: userRole.USER,
         enum: Object.values(userRole)
+    },
+    isActive: {
+        type: Boolean,
+        default: false,
+        required: true
     }
 
 }, {timestamps:true});

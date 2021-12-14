@@ -1,18 +1,19 @@
 const {User} = require('../models');
 const {O_Auth} = require('../models');
-const {passwordService} = require('../services');
+const {emailService:{sendEmail}} = require('../services');
 const {userNormalize} = require('../handler');
 const {statusCodeResponse} = require('../constants');
+const {emailAction} = require("../constants");
 
 module.exports = {
 
     addUser: async (req, res, next) => {
         try {
-            // const {password} = req.body;
-            // const hashedPassword = await passwordService.hash(password);
 
             const newUser = await User.createUserWithHashPassword(req.body);
             const userNormalise = userNormalize(newUser.toJSON());
+
+            await sendEmail(newUser.email, emailAction.WELCOME, {userName: newUser.name})
 
             res.status(statusCodeResponse.CREATED).json(userNormalise);
         } catch (e) {
@@ -33,9 +34,9 @@ module.exports = {
 
     getUserById: (req, res, next) => {
         try {
-            const user = userNormalize(req.body);
+            const {password, updatedAt, __v, ...other} = req.body;
 
-            res.json(user);
+                res.json(other);
         } catch (e) {
             next(e);
         }
@@ -44,9 +45,9 @@ module.exports = {
     updateUser: async (req, res, next) => {
         try {
             const {user_id} = req.params;
-            const user = req.body;
+
             const userUpdated = await User.updateData(user_id,
-                user, {new: true});
+                req.body, {new: true});
 
             res.json(userUpdated);
         } catch (e) {

@@ -1,5 +1,5 @@
 module.exports = {
-    authValidator: require('./auth.validator'),
-    postValidator: require('./post.validator'),
-    userValidator: require('./user.validator')
+    authValidators: require('./auth.validator'),
+    postValidators: require('./post.validator'),
+    userValidators: require('./user.validator')
 };

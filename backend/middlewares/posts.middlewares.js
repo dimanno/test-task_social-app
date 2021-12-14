@@ -1,6 +1,6 @@
 const {Posts} = require('../models');
 const {messageResponse, statusCodeResponse} = require('../constants');
-const ErrorHandler = require('../errors/errors.handler');
+const ErrorHandler = require('../errors/errorHandler');
 
 module.exports = {
     checkPostExist: async (req, res, next) => {

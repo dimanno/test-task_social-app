@@ -1,6 +1,6 @@
-const {User} = require('../models/User')
+const {User} = require('../models')
 const {messageResponse, statusCodeResponse} = require('../constants');
-const ErrorHandler = require('../errors/errors.handler');
+const ErrorHandler = require('../errors/errorHandler');
 
 module.exports = {
     checkEmailExist: async (req, res, next) => {
@@ -39,7 +39,8 @@ module.exports = {
         try {
             const {user_id} = req.params;
             const user = await User.findById(user_id).lean();
-console.log(user)
+            console.log(user)
+
             if (!user && user_id) {
                 throw  new ErrorHandler(messageResponse.USER_NOT_FOUND, statusCodeResponse.NOT_FOUND);
             }

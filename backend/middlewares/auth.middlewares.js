@@ -1,5 +1,5 @@
 const {messageResponse, statusCodeResponse, constants} = require('../constants');
-const ErrorHandler = require('../errors/errors.handler');
+const ErrorHandler = require('../errors/errorHandler');
 const {passwordService: {compare}, jwtService} = require('../services');
 const {O_Auth} = require('../models');
 
