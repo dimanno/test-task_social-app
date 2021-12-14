@@ -24,4 +24,4 @@ module.exports = {
         templateName: 'change.password',
         subject: 'Your password has been changed'
     },
-}
+};

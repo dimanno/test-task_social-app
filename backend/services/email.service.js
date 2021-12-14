@@ -4,8 +4,8 @@ const EmailTemplates = require('email-templates');
 
 const {EMAIL, EMAIL_PASSWORD} = require('../config/config');
 const allTemplates = require('../email-templates');
-const {messageResponse, statusCodeResponse} = require("../constants");
-const ErrorHandler = require("../errors/errorHandler");
+const {messageResponse, statusCodeResponse} = require('../constants');
+const ErrorHandler = require('../errors/errorHandler');
 
 const templateParser = new EmailTemplates({
     views: {
@@ -35,7 +35,7 @@ const sendEmail = async (userEmail, emailAction, context = {}) => {
         to: userEmail,
         subject: templateInfo.subject,
         html
-    })
+    });
 };
 
 module.exports = {sendEmail};

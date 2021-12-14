@@ -6,7 +6,7 @@ const rateLimit = require('express-rate-limit');
 
 require('dotenv').config();
 
-const {usersRouter, authRouter} = require('./routes')
+const {usersRouter, authRouter} = require('./routes');
 const {PORT, MONGO_CONNECT_URI, ALLOWED_ORIGIN, NODE_ENV} = require('./config/config');
 const ErrorHandler = require('./errors/errorHandler');
 const addDefaultUser = require('./handler/default.user');
@@ -27,7 +27,7 @@ if (NODE_ENV === 'dev') {
     app.use(morgan('dev'));
 }
 
-mongoose.connect('mongodb://localhost:27017/social_app').then(()=> {
+mongoose.connect(MONGO_CONNECT_URI).then(()=> {
     console.log('mongoDB connect successfully');
 });
 // routes
@@ -46,7 +46,7 @@ app.use('*', (err, req, res, next) => {
 app.listen(PORT, ()=> {
     console.log(`app listen ${PORT}`);
 
-    addDefaultUser()
+    addDefaultUser().then();
 });
 
 function _configCors(origin, callback) {
