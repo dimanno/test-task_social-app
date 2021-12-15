@@ -1,9 +1,9 @@
 const {User} = require('../models');
 const {O_Auth} = require('../models');
-const {emailService:{sendEmail}} = require('../services');
+const {emailService: {sendEmail}} = require('../services');
 const {userNormalize} = require('../handler');
 const {statusCodeResponse} = require('../constants');
-const {emailAction} = require("../constants");
+const {emailAction} = require('../constants');
 
 module.exports = {
 
@@ -13,7 +13,7 @@ module.exports = {
             const newUser = await User.createUserWithHashPassword(req.body);
             const userNormalise = userNormalize(newUser.toJSON());
 
-            await sendEmail(newUser.email, emailAction.WELCOME, {userName: newUser.name})
+            await sendEmail(newUser.email, emailAction.WELCOME, {userName: newUser.name});
 
             res.status(statusCodeResponse.CREATED).json(userNormalise);
         } catch (e) {
@@ -34,9 +34,10 @@ module.exports = {
 
     getUserById: (req, res, next) => {
         try {
+            // eslint-disable-next-line no-unused-vars
             const {password, updatedAt, __v, ...other} = req.body;
 
-                res.json(other);
+            res.json(other);
         } catch (e) {
             next(e);
         }
@@ -45,9 +46,9 @@ module.exports = {
     updateUser: async (req, res, next) => {
         try {
             const {user_id} = req.params;
-
+            const user = req.body;
             const userUpdated = await User.updateData(user_id,
-                req.body, {new: true});
+                user, {new: true});
 
             res.json(userUpdated);
         } catch (e) {
@@ -58,11 +59,28 @@ module.exports = {
     deleteUser: async (req, res, next) => {
         try {
             const {_id} = req.body;
-            console.log(_id)
+            console.log(_id);
             await User.deleteOne({_id});
             await O_Auth.deleteMany({user_id: _id});
 
             res.sendStatus(statusCodeResponse.NO_DATA);
+        } catch (e) {
+            next(e);
+        }
+    },
+
+    addFriends: async (req, res, next) => {
+        try {
+
+            const currentUser = req.body;
+            console.log(currentUser);
+            const {user_id} = req.params;
+            const user = await User.findById(user_id);
+
+            await user.updateOne({$push: {followers: currentUser._id}});
+            await currentUser.updateOne({$push: {followings: user_id}});
+
+            res.status(200).json('user has been followed');
         } catch (e) {
             next(e);
         }

@@ -1,9 +1,9 @@
 const {Schema, model} = require('mongoose');
 
 const {models_name, userRole} = require('../constants');
-const {passwordService} = require("../services");
+const {passwordService} = require('../services');
 
-const userSchema = new  Schema({
+const userSchema = new Schema({
     name: {
         type: String,
         required: true,
@@ -32,11 +32,11 @@ const userSchema = new  Schema({
     },
     avatarPicture: {
         type: String,
-        default: "",
+        default: '',
     },
     coverPicture: {
         type: String,
-        default: "",
+        default: '',
     },
     followers: {
         type: Array,
@@ -76,6 +76,6 @@ module.exports = userSchema.statics = {
             {new: true, runValidators: true}
         ).lean();
     },
-}
+};
 
 module.exports = model(models_name.USER, userSchema);

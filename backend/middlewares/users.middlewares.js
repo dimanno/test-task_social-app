@@ -1,4 +1,4 @@
-const {User} = require('../models')
+const {User} = require('../models');
 const {messageResponse, statusCodeResponse} = require('../constants');
 const ErrorHandler = require('../errors/errorHandler');
 
@@ -39,10 +39,9 @@ module.exports = {
         try {
             const {user_id} = req.params;
             const user = await User.findById(user_id).lean();
-            console.log(user)
 
             if (!user && user_id) {
-                throw  new ErrorHandler(messageResponse.USER_NOT_FOUND, statusCodeResponse.NOT_FOUND);
+                throw new ErrorHandler(messageResponse.USER_NOT_FOUND, statusCodeResponse.NOT_FOUND);
             }
 
             req.body = user;
@@ -51,4 +50,28 @@ module.exports = {
             next(e);
         }
     },
-}
+
+    checkFollowers: async (req, res, next) => {
+        try {
+            const {id} = req.body;
+            const {user_id} = req.params;
+            console.log(id);
+            console.log(user_id);
+            if (id === user_id) {
+                throw new ErrorHandler('you cannot follow yourself');
+            }
+
+            const currentUser = await User.findById(id);
+            const {followers} = await User.findById(user_id);
+
+            if (followers.includes(id)) {
+                throw new ErrorHandler('you already follow');
+            }
+
+            req.body = currentUser;
+            next();
+        } catch (e) {
+            next(e);
+        }
+    }
+};

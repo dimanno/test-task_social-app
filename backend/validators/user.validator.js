@@ -52,9 +52,6 @@ const updateUserValidator = Joi.object({
         .string(),
     coverPicture: Joi
         .string(),
-    role: Joi
-        .string()
-        .allow(...Object.values(userRole))
 });
 
 module.exports = {

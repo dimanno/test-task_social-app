@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 const {tokenTypeEnum: {ACCESS}} = require('../constants');
-const {JWT_ACCESS_SECRET, JWT_REFRESH_SECRET} = require('../config/config')
+const {JWT_ACCESS_SECRET, JWT_REFRESH_SECRET} = require('../config/config');
 const {messageResponse, statusCodeResponse} = require('../constants');
 const ErrorHandler = require('../errors/errorHandler');
 
@@ -18,10 +18,10 @@ module.exports = {
 
     verifyToken: async (token, tokenType = ACCESS) => {
         try {
-            let secret = tokenType === ACCESS ? JWT_ACCESS_SECRET : JWT_REFRESH_SECRET
+            const secret = tokenType === ACCESS ? JWT_ACCESS_SECRET : JWT_REFRESH_SECRET;
             await jwt.verify(token, secret);
         } catch (e) {
-            throw new ErrorHandler(messageResponse.INVALID_TOKEN, statusCodeResponse.INVALID_CLIENT)
+            throw new ErrorHandler(messageResponse.INVALID_TOKEN, statusCodeResponse.INVALID_CLIENT);
         }
     }
 };
