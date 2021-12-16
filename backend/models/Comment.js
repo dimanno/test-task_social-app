@@ -6,7 +6,6 @@ const commentSchema = new Schema({
     email: {
         type: String,
         required: true,
-        unique: true,
         trim: true
     },
     body: {
@@ -20,5 +19,15 @@ const commentSchema = new Schema({
         ref: models_name.POST
     }
 }, {timestamps: true, toObject: {virtuals: true}, toJSON: {virtuals: true}});
+
+module.exports = commentSchema.statics = {
+    updateData(comment_Id, commentDataObject) {
+        return this.findByIdAndUpdate(
+            comment_Id,
+            commentDataObject,
+            {new: true, runValidators: true}
+        ).lean();
+    },
+};
 
 module.exports = model(models_name.COMMENT, commentSchema);

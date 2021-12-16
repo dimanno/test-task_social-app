@@ -1,12 +1,7 @@
 const router = require('express').Router();
 
 const {commentsController} = require('../controllers');
-const {universalMiddlewares} = require('../middlewares');
-const {commentValidator} = require('../validators');
 
-router.post('/',
-    universalMiddlewares.checkValidDataMiddleware(commentValidator),
-    commentsController.addComment);
 router.get('/', commentsController.getAllComments);
 
 router.get('/:comment_id', commentsController.getCommentsToPost);

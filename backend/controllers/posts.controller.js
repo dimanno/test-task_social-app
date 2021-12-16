@@ -5,7 +5,6 @@ module.exports = {
     addPost: async (req, res, next) => {
         try {
             const {user_id:{_id}} = req.user;
-            console.log(_id);
             const post = await Post.create({...req.body, user_id: _id});
 
             res.status(statusCodeResponse.CREATED).json(post);
@@ -16,7 +15,7 @@ module.exports = {
 
     getAllPosts: async (req, res, next) => {
         try {
-            const posts = await Posts.find({}).lean();
+            const posts = await Post.find({}).lean();
 
             res.json(posts);
         } catch (e) {
@@ -33,7 +32,7 @@ module.exports = {
     getPostsByUser: async (req, res, next) => {
         try {
             const {user_id} = req.params;
-            const userPosts = await Posts.find({user_id}).lean();
+            const userPosts = await Post.find({user_id}).lean();
 
             res.json(userPosts);
         } catch (e) {
@@ -46,7 +45,7 @@ module.exports = {
             const post_id = req.params;
             const post = req.body;
 
-            const postUpdated = await Posts.updateData(post_id,
+            const postUpdated = await Post.updateData(post_id,
                 post, {new: true});
 
             res.json(postUpdated);
@@ -58,7 +57,7 @@ module.exports = {
     deletePost:async (req, res, next) => {
         try {
             const {_id} = req.body;
-            await Posts.deleteOne({_id});
+            await Post.deleteOne({_id});
 
             res.sendStatus(statusCodeResponse.NO_DATA);
         } catch (e) {

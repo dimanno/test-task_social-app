@@ -20,4 +20,14 @@ const postSchema = new Schema({
     }
 }, {timestamps: true});
 
+module.exports = postSchema.statics = {
+    updateData(post_Id, postDataObject) {
+        return this.findByIdAndUpdate(
+            post_Id,
+            postDataObject,
+            {new: true, runValidators: true}
+        ).lean();
+    },
+};
+
 module.exports = model(models_name.POST, postSchema);

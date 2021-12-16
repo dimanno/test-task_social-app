@@ -1,10 +1,14 @@
 const {Comment} = require('../models');
+const {statusCodeResponse} = require('../constants');
 
 module.exports = {
     addComment: async (req, res, next) => {
         try {
-            const comment = req.body;
-            await Comment.create(comment);
+            const {post_id: id} = req.params;
+            console.log(id);
+            const comment = await Comment.create({...req.body, post_id: id});
+
+            res.status(statusCodeResponse.CREATED).json(comment);
         } catch (e) {
             next(e);
         }
