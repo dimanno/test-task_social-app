@@ -3,11 +3,6 @@ const {Schema, model} = require('mongoose');
 const {models_name} = require('../constants');
 
 const commentSchema = new Schema({
-    name: {
-        type: String,
-        required: true,
-        trim: true
-    },
     email: {
         type: String,
         required: true,

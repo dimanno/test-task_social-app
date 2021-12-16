@@ -6,7 +6,7 @@ const rateLimit = require('express-rate-limit');
 
 require('dotenv').config();
 
-const {usersRouter, authRouter, postsRouter} = require('./routes');
+const {usersRouter, authRouter, postsRouter, commentsRouter} = require('./routes');
 const {PORT, MONGO_CONNECT_URI, ALLOWED_ORIGIN, NODE_ENV} = require('./config/config');
 const ErrorHandler = require('./errors/errorHandler');
 const addDefaultUser = require('./handler/default.user');
@@ -32,8 +32,10 @@ mongoose.connect(MONGO_CONNECT_URI).then(()=> {
 });
 // routes
 app.use('/auth', authRouter);
-app.use('/users', usersRouter);
+app.use('/comments', commentsRouter);
 app.use('/posts', postsRouter);
+app.use('/users', usersRouter);
+
 
 // eslint-disable-next-line no-unused-vars
 app.use('*', (err, req, res, next) => {

@@ -4,8 +4,8 @@ const {statusCodeResponse} = require('../constants');
 module.exports = {
     addPost: async (req, res, next) => {
         try {
-            const {user_id:{_id}} = req.user
-            console.log(_id)
+            const {user_id:{_id}} = req.user;
+            console.log(_id);
             const post = await Posts.create({...req.body, user_id: _id});
 
             res.status(statusCodeResponse.CREATED).json(post);
@@ -18,7 +18,7 @@ module.exports = {
         try {
             const posts = await Posts.find({}).lean();
 
-            res.json(posts)
+            res.json(posts);
         } catch (e) {
             next(e);
         }
@@ -35,7 +35,7 @@ module.exports = {
             const {user_id} = req.params;
             const userPosts = await Posts.find({user_id}).lean();
 
-            res.json(userPosts)
+            res.json(userPosts);
         } catch (e) {
             next(e);
         }
@@ -43,7 +43,7 @@ module.exports = {
 
     updatePost: async (req, res, next) => {
         try {
-            const post_id = req.params
+            const post_id = req.params;
             const post = req.body;
 
             const postUpdated = await Posts.updateData(post_id,
@@ -57,7 +57,7 @@ module.exports = {
 
     deletePost:async (req, res, next) => {
         try {
-            const {_id} = req.body
+            const {_id} = req.body;
             await Posts.deleteOne({_id});
 
             res.sendStatus(statusCodeResponse.NO_DATA);
