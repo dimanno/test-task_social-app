@@ -17,4 +17,4 @@ const addPostValidator = Joi.object({
         .string()
 });
 
-module.exports = addPostValidator;
+module.exports = {addPostValidator};

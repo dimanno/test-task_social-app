@@ -1,4 +1,4 @@
-const {Posts} = require('../models');
+const {Post} = require('../models');
 const {statusCodeResponse} = require('../constants');
 
 module.exports = {
@@ -6,7 +6,7 @@ module.exports = {
         try {
             const {user_id:{_id}} = req.user;
             console.log(_id);
-            const post = await Posts.create({...req.body, user_id: _id});
+            const post = await Post.create({...req.body, user_id: _id});
 
             res.status(statusCodeResponse.CREATED).json(post);
         } catch (e) {
