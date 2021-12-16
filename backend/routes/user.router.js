@@ -1,6 +1,6 @@
 const router = require('express').Router();
 
-const {usersController} = require('../controllers');
+const {usersController, postsController} = require('../controllers');
 const {usersMiddlewares, universalMiddlewares, authMiddlewares} = require('../middlewares');
 const {userValidators: {addUser_validator, updateUserValidator}} = require('../validators');
 const {tokenTypeEnum} = require('../constants');
@@ -18,6 +18,8 @@ router.put('/:user_id',
     universalMiddlewares.checkValidDataMiddleware(updateUserValidator),
     usersController.updateUser);
 router.delete('/:user_id', usersMiddlewares.checkUserById, usersController.deleteUser);
+
+router.get('/:user_id/posts', usersMiddlewares.checkUserById, postsController.getPostsByUser);
 
 router.put('/:user_id/follow', usersMiddlewares.checkFollow, usersController.follow);
 router.put('/:user_id/unfollow', usersMiddlewares.checkUnfollow, usersController.unfollow);
