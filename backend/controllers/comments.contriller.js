@@ -8,5 +8,12 @@ module.exports = {
         } catch (e) {
             next(e);
         }
+    },
+    getComments: (req, res, next) => {
+        try {
+
+        } catch (e) {
+            next(e);
+        }
     }
 };
