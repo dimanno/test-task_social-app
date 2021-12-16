@@ -1,4 +1,4 @@
-const { Schema, model} = require('mongoose');
+const {Schema, model} = require('mongoose');
 
 const {models_name} = require('../constants');
 
@@ -13,10 +13,25 @@ const postSchema = new Schema({
         required: true,
         trim: true,
     },
+    image: {
+        type: String,
+    },
+    comments: [{
+        type: Schema.Types.ObjectId,
+        ref: models_name.COMMENT
+    }],
+    likes: {
+        type: Array,
+        default: []
+    },
+    date: {
+        type: Date,
+        default: Date.now
+    },
     user_id: {
         type: Schema.Types.ObjectId,
         required: true,
-        ref: 'user'
+        ref: models_name.USER
     }
 }, {timestamps: true});
 
