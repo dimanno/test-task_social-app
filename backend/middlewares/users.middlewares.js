@@ -51,12 +51,11 @@ module.exports = {
         }
     },
 
-    checkFollowers: async (req, res, next) => {
+    checkFollow: async (req, res, next) => {
         try {
             const {id} = req.body;
             const {user_id} = req.params;
-            console.log(id);
-            console.log(user_id);
+
             if (id === user_id) {
                 throw new ErrorHandler('you cannot follow yourself');
             }
@@ -69,6 +68,29 @@ module.exports = {
             }
 
             req.body = currentUser;
+            next();
+        } catch (e) {
+            next(e);
+        }
+    },
+
+    checkUnfollow: async (req, res, next) => {
+        try {
+            const {id} = req.body;
+            const {user_id} = req.params;
+
+            if (id === user_id) {
+                throw new ErrorHandler('Uou cannot unfollow yourself', statusCodeResponse.FORBIDDEN);
+            }
+
+            const userFollow = await User.findById(id);
+            const {followers} = await User.findById(user_id);
+
+            if (!followers.includes(id)) {
+                throw new ErrorHandler('You dont follow this user', statusCodeResponse.FORBIDDEN);
+            }
+
+            req.body = userFollow;
             next();
         } catch (e) {
             next(e);

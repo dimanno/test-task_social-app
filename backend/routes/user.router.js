@@ -19,6 +19,7 @@ router.put('/:user_id',
     usersController.updateUser);
 router.delete('/:user_id', usersMiddlewares.checkUserById, usersController.deleteUser);
 
-router.put('/:user_id/follow', usersMiddlewares.checkFollowers, usersController.addFriends);
+router.put('/:user_id/follow', usersMiddlewares.checkFollow, usersController.follow);
+router.put('/:user_id/unfollow', usersMiddlewares.checkUnfollow, usersController.unfollow);
 
 module.exports = router;

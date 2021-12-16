@@ -69,18 +69,35 @@ module.exports = {
         }
     },
 
-    addFriends: async (req, res, next) => {
+    follow: async (req, res, next) => {
         try {
 
-            const currentUser = req.body;
-            console.log(currentUser);
+            const {_id} = req.body;
+
             const {user_id} = req.params;
             const user = await User.findById(user_id);
 
-            await user.updateOne({$push: {followers: currentUser._id}});
-            await currentUser.updateOne({$push: {followings: user_id}});
+            await user.updateOne({$push: {followers: _id}});
+            await req.body.updateOne({$push: {followings: user_id}});
 
             res.status(200).json('user has been followed');
+        } catch (e) {
+            next(e);
+        }
+    },
+
+    unfollow: async (req, res, next) => {
+        try {
+
+            const {_id} = req.body;
+
+            const {user_id} = req.params;
+            const user = await User.findById(user_id);
+
+            await user.updateOne({$pull: {followers: _id}});
+            await req.body.updateOne({$pull: {followings: user_id}});
+
+            res.status(200).json('user has been unfollowed');
         } catch (e) {
             next(e);
         }
