@@ -1,4 +1,4 @@
-const {Comment, User} = require('../models');
+const {Comment} = require('../models');
 const ErrorHandler = require('../errors/errorHandler');
 const {messageResponse, statusCodeResponse} = require('../constants');
 
@@ -31,5 +31,5 @@ module.exports = {
         } catch (e) {
             next(e);
         }
-    }
+    },
 };
