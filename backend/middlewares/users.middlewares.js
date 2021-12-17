@@ -87,7 +87,7 @@ module.exports = {
             const {followers} = await User.findById(user_id);
 
             if (!followers.includes(id)) {
-                throw new ErrorHandler('You dont follow this user', statusCodeResponse.FORBIDDEN);
+                throw new ErrorHandler('You dont unfollow this user', statusCodeResponse.FORBIDDEN);
             }
 
             req.body = userFollow;

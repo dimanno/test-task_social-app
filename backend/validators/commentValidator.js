@@ -5,7 +5,6 @@ const {regExp:{EMAIL_REGEXP}} = require('../constants');
 const commentValidator = joi.object({
     email: joi
         .string()
-        .required()
         .trim()
         .regex(EMAIL_REGEXP),
     body: joi

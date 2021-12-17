@@ -1,9 +1,9 @@
 const {User} = require('../models');
 const {O_Auth} = require('../models');
-const {emailService: {sendEmail}} = require('../services');
+// const {emailService: {sendEmail}} = require('../services');
 const {userNormalize} = require('../handler');
 const {statusCodeResponse} = require('../constants');
-const {emailAction} = require('../constants');
+// const {emailAction} = require('../constants');
 
 module.exports = {
 
@@ -13,7 +13,7 @@ module.exports = {
             const newUser = await User.createUserWithHashPassword(req.body);
             const userNormalise = userNormalize(newUser.toJSON());
 
-            await sendEmail(newUser.email, emailAction.WELCOME, {userName: newUser.name});
+            // await sendEmail(newUser.email, emailAction.WELCOME, {userName: newUser.name});
 
             res.status(statusCodeResponse.CREATED).json(userNormalise);
         } catch (e) {

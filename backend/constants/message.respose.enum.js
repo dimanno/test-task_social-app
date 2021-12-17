@@ -1,5 +1,6 @@
 module.exports = {
     ACTIVE_USER: 'User is active',
+    COMMENTS_NOT_FOUND: 'There are no comments yet',
     DATA_EXIST: 'User with this data is already exist',
     WRONG_LOGIN_DATA: 'Wrong email or password',
     USER_NOT_FOUND: 'User does not exist',
