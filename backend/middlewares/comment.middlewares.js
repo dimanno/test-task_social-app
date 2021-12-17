@@ -16,5 +16,20 @@ module.exports = {
         } catch (e) {
             next(e);
         }
+    },
+
+    isCommentExist: async (req, res, next) => {
+        try {
+            const {comment_id} = req.params;
+            const comment = await Comment.findById(comment_id);
+
+            if (!comment) {
+                throw new ErrorHandler(messageResponse.COMMENTS_NOT_FOUND, statusCodeResponse.NO_DATA);
+            }
+
+            next();
+        } catch (e) {
+            next(e);
+        }
     }
 };

@@ -1,6 +1,6 @@
 module.exports = {
     COMMENT: 'comment',
     O_AUTH: 'o_Auth',
-    POST: 'posts',
+    POST: 'post',
     USER: 'user',
-}
+};

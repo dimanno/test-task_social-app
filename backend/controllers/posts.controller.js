@@ -42,9 +42,8 @@ module.exports = {
 
     updatePost: async (req, res, next) => {
         try {
-            const post_id = req.params;
+            const {post_id} = req.params;
             const post = req.body;
-
             const postUpdated = await Post.updateData(post_id,
                 post, {new: true});
 

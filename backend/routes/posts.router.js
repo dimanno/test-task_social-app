@@ -22,7 +22,9 @@ router.post('/',
     universalMiddlewares.checkValidDataMiddleware(postValidators.addPostValidator),
     postsController.addPost);
 
-router.put('/:post_id', postMiddlewares.checkUserPost, postsController.updatePost);
+router.put('/:post_id',
+    postMiddlewares.checkUserPost,
+    postsController.updatePost);
 router.delete('/:post_id', postMiddlewares.checkUserPost, postsController.deletePost);
 
 module.exports = router;

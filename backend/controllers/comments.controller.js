@@ -25,9 +25,12 @@ module.exports = {
     },
     updateComment: async (req, res, next) => {
         try {
-            const comments = req.body;
-            console.log(comments);
-            await Comment.create(comments);
+            const comment = req.body;
+            const {comment_id} =req.params;
+
+            const commentUpdated = await Comment.updateData(comment_id, comment, {new: true});
+
+            res.json(commentUpdated);
         } catch (e) {
             next(e);
         }
