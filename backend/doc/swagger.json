@@ -12,7 +12,7 @@
   },
   "servers": [
     {
-      "url": "/api"
+      "url": "http://localhost:5050"
     }
   ],
   "paths": {
@@ -92,6 +92,781 @@
           }
         }
       }
+    },
+    "/posts": {
+      "get": {
+        "tags": [
+          "posts"
+        ],
+        "summary": "Get all posts",
+        "operationId": "get posts",
+        "responses": {
+          "200": {
+            "description": "All posts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PostBodyModels"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Just an error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/commonErrors"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "posts"
+        ],
+        "summary": "Create post",
+        "description": "post object that needs to be added",
+        "operationId": "add Post",
+        "security": [],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "This is `access-token` from POST /auth",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "token"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostBodyModels"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Post was created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostBodyModels"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Just an error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/commonErrors"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/posts/{postId}": {
+      "get": {
+        "tags": [
+          "posts"
+        ],
+        "summary": "Get post",
+        "description": "get post by Id",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "This is `access-token` from POST /auth",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "token"
+            }
+          },
+          {
+            "name": "postId",
+            "in": "path",
+            "description": "ID of post to return",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "All posts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PostBodyModels"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Just an error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/commonErrors"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "posts"
+        ],
+        "summary": "Update posts by id",
+        "operationId": "update post",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "This is access-token from POST /auth",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "token"
+            }
+          },
+          {
+            "name": "postId",
+            "in": "path",
+            "description": "ID of post to return",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "post is updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostBodyModels"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Just an error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/commonErrors"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/commonErrors"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "posts"
+        ],
+        "summary": "Delete post by id",
+        "operationId": "delete post",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "This is access-token from POST /auth",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "token"
+            }
+          },
+          {
+            "name": "postId",
+            "in": "path",
+            "description": "ID of post to return",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "post was deleted",
+            "content": {}
+          },
+          "400": {
+            "description": "Invalid ID supplied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/commonErrors"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Post not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/commonErrors"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/posts/{postId}/comments": {
+      "get": {
+        "tags": [
+          "posts"
+        ],
+        "summary": "Get comments to post",
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "description": "ID of post to return",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "comment to posts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommentBodyModels"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Just an error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/commonErrors"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Get all users",
+        "description": "getUsers",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "This is `access-token` from POST /auth",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "token"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "All users",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserBodyModels"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Just an error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/commonErrors"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Create user",
+        "description": "user object that needs to be added",
+        "operationId": "addUser",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "This is `access-token` from POST /auth",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "token"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": [
+                  "age",
+                  "email",
+                  "name",
+                  "password"
+                ],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "description": "User email",
+                    "default": "admin@gmail.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "User password",
+                    "default": "12345Az$"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "User name",
+                    "default": "name"
+                  },
+                  "age": {
+                    "type": "number",
+                    "description": "User age"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "User was created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserBodyModels"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Just an error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/commonErrors"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{userId}": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Get user by id",
+        "operationId": "getUser",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "This is `access-token` from POST /auth",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "token"
+            }
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID of user to return",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserBodyModels"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/commonErrors"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/commonErrors"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Update user by id",
+        "operationId": "updateUser",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "This is access-token from POST /auth",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "token"
+            }
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID of user to return",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "user is updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserBodyModels"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/commonErrors"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/commonErrors"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Delete user by id",
+        "operationId": "deleteUser",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "This is access-token from POST /auth",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "token"
+            }
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID of user to return",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "user was deleted",
+            "content": {}
+          },
+          "400": {
+            "description": "Invalid ID supplied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/commonErrors"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/commonErrors"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{userId}/posts": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Get users posts",
+        "description": "get post",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "This is `access-token` from POST /auth",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "token"
+            }
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID of user to return",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "postId",
+            "in": "path",
+            "description": "ID of post to return",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "All posts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostBodyModels"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Just an error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/commonErrors"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ApiResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "type": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "PostBodyModels": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "body": {
+            "type": "string"
+          },
+          "image": {
+            "type": "string"
+          },
+          "comments": {
+            "type": "array"
+          },
+          "_id": {
+            "type": "string",
+            "description": "MongoDB ID",
+            "example": "12345qwerty"
+          },
+          "user_id": {
+            "type": "string",
+            "description": "MongoDB ID of the user to whom the post belongs",
+            "example": "12345qwerty"
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "date in UTC when post create",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date in UTC when post update"
+          }
+        }
+      },
+      "UserBodyModels": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "MongoDB ID",
+            "example": "12345qwerty"
+          },
+          "email": {
+            "type": "string",
+            "example": "admin@gmail.com"
+          },
+          "name": {
+            "type": "string",
+            "example": "admin"
+          },
+          "age": {
+            "type": "number"
+          }
+        }
+      },
+      "CommentBodyModels": {
+        "type": "object",
+        "properties": {
+          "body": {
+            "type": "string"
+          },
+          "_id": {
+            "type": "string",
+            "description": "MongoDB ID",
+            "example": "12345qwerty"
+          },
+          "posy_id": {
+            "type": "string",
+            "description": "MongoDB ID of the user to whom the post belongs",
+            "example": "12345qwerty"
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "date in UTC when post create",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date in UTC when post update"
+          }
+        }
+      },
+      "commonErrors": {
+        "type": "object",
+        "properties": {
+          "msg": {
+            "type": "string",
+            "example": "Something went wrong"
+          },
+          "code": {
+            "type": "number",
+            "example": 400
+          }
+        }
+      }
     }
   }
 }
+
