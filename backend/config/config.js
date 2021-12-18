@@ -5,7 +5,7 @@ module.exports = {
     MONGO_CONNECT_URI: process.env.MONGO_CONNECT_URI || 'mongodb://localhost:27017/social_app',
 
     DEFAULT_USER_PASSWORD: process.env.DEFAULT_USER_PASSWORD,
-    DEFAULT_USER_EMAIL: process.env.EFAULT_USER_EMAIL,
+    DEFAULT_USER_EMAIL: process.env.DEFAULT_USER_EMAIL,
 
     ALLOWED_ORIGIN: process.env.ALLOWED_ORIGIN || 'http://localhost:3000',
 

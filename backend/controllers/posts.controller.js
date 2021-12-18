@@ -55,8 +55,8 @@ module.exports = {
 
     deletePost:async (req, res, next) => {
         try {
-            const {_id} = req.body;
-            await Post.deleteOne({_id});
+            const {post_id} = req.params;
+            await Post.findByIdAndDelete(post_id);
 
             res.sendStatus(statusCodeResponse.NO_DATA);
         } catch (e) {

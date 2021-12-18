@@ -1,0 +1,97 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Sigma test-task",
+    "description": "Create REST API. Implement authorization and CRUD for users ",
+    "contact": {
+      "name": "Dmytro",
+      "url": "https://github.com/dimanno",
+      "email": "dimanno.dev@gmail.com"
+    },
+    "version": "1.1"
+  },
+  "servers": [
+    {
+      "url": "/api"
+    }
+  ],
+  "paths": {
+    "/auth": {
+      "post": {
+        "tags": [
+          "Authorization"
+        ],
+        "summary": "Logs user into the system",
+        "description": "loginUser",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "access_token": {
+                      "type": "string"
+                    },
+                    "refresh_token": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid email/password supplied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "tags": [
+          "Authorization"
+        ],
+        "summary": "Logs out current logged in user session",
+        "operationId": "logoutUser",
+        "responses": {
+          "default": {
+            "description": "successful operation",
+            "content": {}
+          }
+        }
+      }
+    }
+  }
+}

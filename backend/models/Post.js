@@ -20,10 +20,6 @@ const postSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: models_name.COMMENT
     }],
-    likes: {
-        type: Array,
-        default: []
-    },
     date: {
         type: Date,
         default: Date.now

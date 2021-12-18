@@ -19,7 +19,7 @@ module.exports = {
                 ...tokenPair
             });
         } catch (e) {
-            next(e)
+            next(e);
         }
     },
 
@@ -35,7 +35,7 @@ module.exports = {
 
             res.json(newTokenPair);
         } catch (e) {
-            next(e)
+            next(e);
         }
     },
 
@@ -44,9 +44,9 @@ module.exports = {
             const token = req.token;
             await O_Auth.deleteOne({[ACCESS]: token});
 
-            res.sendStatus(statusCodeResponse.NO_DATA);
+            res.sendStatus(statusCodeResponse.NO_DATA).json('You are logged out');
         } catch (e) {
-            next(e)
+            next(e);
         }
     },
 

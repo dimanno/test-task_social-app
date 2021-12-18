@@ -5,7 +5,7 @@ const ErrorHandler = require('../errors/errorHandler');
 module.exports = {
     checkPostExist: async (req, res, next) => {
         try {
-            const { post_id } = req.params;
+            const {post_id} = req.params;
 
             const post = await Post.findById(post_id).select('-__v');
 
@@ -21,11 +21,12 @@ module.exports = {
 
     checkUserPost: async (req, res, next) => {
         try {
-            const {user_id:{_id}} = req.user;
-            const post = await Post.findOne({post_id: req.params});
+            const {user_id: {_id}} = req.user;
+            const {post_id} = req.params;
+            const post = await Post.findById(post_id);
             const {user_id} = post;
 
-            if (_id.toString() !== user_id._id.toString()) {
+            if (_id.toString() !== user_id.toString()) {
                 throw new ErrorHandler(messageResponse.ACCESS_DENIED, statusCodeResponse.CONFLICT);
             }
 
