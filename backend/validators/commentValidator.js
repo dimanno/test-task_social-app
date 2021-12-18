@@ -1,12 +1,6 @@
 const joi = require('joi');
 
-const {regExp:{EMAIL_REGEXP}} = require('../constants');
-
 const commentValidator = joi.object({
-    email: joi
-        .string()
-        .trim()
-        .regex(EMAIL_REGEXP),
     body: joi
         .string()
         .min(5)

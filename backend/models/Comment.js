@@ -3,11 +3,6 @@ const {Schema, model} = require('mongoose');
 const {models_name} = require('../constants');
 
 const commentSchema = new Schema({
-    email: {
-        type: String,
-        required: true,
-        trim: true
-    },
     body: {
         type: String,
         required: true,
@@ -18,7 +13,7 @@ const commentSchema = new Schema({
         required: true,
         ref: models_name.POST
     }
-}, {timestamps: true, toObject: {virtuals: true}, toJSON: {virtuals: true}});
+}, {timestamps: true});
 
 module.exports = commentSchema.statics = {
     updateData(comment_Id, commentDataObject) {

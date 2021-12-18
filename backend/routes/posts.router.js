@@ -26,6 +26,7 @@ router.get('/:post_id/comments',
     postMiddlewares.checkPostExist,
     commentsController.getCommentsToPost);
 router.put('/:post_id/comments',
+    postMiddlewares.checkPostExist,
     universalMiddlewares.checkValidDataMiddleware(commentValidators.commentValidator),
     commentsController.addComment);
 

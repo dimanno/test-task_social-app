@@ -20,10 +20,6 @@ const postSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: models_name.COMMENT
     }],
-    date: {
-        type: Date,
-        default: Date.now
-    },
     user_id: {
         type: Schema.Types.ObjectId,
         required: true,

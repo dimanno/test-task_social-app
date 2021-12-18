@@ -1,5 +1,6 @@
 const {Comment, Post} = require('../models');
-const {statusCodeResponse} = require('../constants');
+const {statusCodeResponse, messageResponse} = require('../constants');
+const ErrorHandler = require('../errors/errorHandler');
 
 module.exports = {
     addComment: async (req, res, next) => {
@@ -8,7 +9,9 @@ module.exports = {
 
             const comment = await Comment.create({...req.body, post_id: id});
 
-            await Post.findByIdAndUpdate(id, {$push: {comments: comment}});
+            await Post.findByIdAndUpdate(id,
+                {$push: {comments: comment}},
+                { new: true, runValidators: true });
 
             res.status(statusCodeResponse.CREATED).json(comment);
         } catch (e) {
@@ -49,6 +52,10 @@ module.exports = {
         try {
             const {post_id} = req.params;
             const commentsOnPost = await Comment.find({post_id}).lean();
+
+            if (!commentsOnPost) {
+                throw new ErrorHandler(messageResponse.COMMENTS_NOT_FOUND, statusCodeResponse.NO_DATA);
+            }
 
             res.json(commentsOnPost);
         } catch (e) {

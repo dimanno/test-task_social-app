@@ -23,10 +23,14 @@ module.exports = {
         }
     },
 
-    getPostById: (req, res) => {
-        const post = req.post;
+    getPostById: (req, res, next) => {
+        try {
+            const post = req.post;
 
-        res.json(post);
+            res.json(post);
+        } catch (e) {
+            next(e);
+        }
     },
 
     getPostsByUser: async (req, res, next) => {

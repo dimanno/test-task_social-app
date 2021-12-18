@@ -95,5 +95,19 @@ module.exports = {
         } catch (e) {
             next(e);
         }
-    }
+    },
+
+    checkUserRole: (arrayRoles = []) => (req, res, next) => {
+        try {
+            const {role} = req.body;
+
+            if (!arrayRoles.includes(role)) {
+                throw new ErrorHandler(messageResponse.ACCESS_DENIED, statusCodeResponse.FORBIDDEN);
+            }
+
+            next();
+        } catch (e) {
+            next(e);
+        }
+    },
 };

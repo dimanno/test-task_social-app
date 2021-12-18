@@ -13,6 +13,7 @@ module.exports = {
                 throw new ErrorHandler(messageResponse.POST_NOT_FOUND, statusCodeResponse.NOT_FOUND);
             }
 
+            req.post = post;
             next();
         } catch (e) {
             next(e);
