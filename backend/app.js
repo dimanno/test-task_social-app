@@ -3,8 +3,8 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
-const swaggerUI = require('swagger-ui-express');
-// const pathToSwaggerUi = require('swagger-ui-dist').absolutePath();
+// const swaggerUI = require('swagger-ui-express');
+const pathToSwaggerUi = require('swagger-ui-dist').absolutePath();
 
 require('dotenv').config();
 
@@ -12,10 +12,10 @@ const {usersRouter, authRouter, postsRouter, commentsRouter} = require('./routes
 const {PORT, MONGO_CONNECT_URI, ALLOWED_ORIGIN, NODE_ENV} = require('./config/config');
 const ErrorHandler = require('./errors/errorHandler');
 const addDefaultUser = require('./handler/default.user');
-const swaggerJson = require('./doc/swagger.json');
+// const swaggerJson = require('./doc/swagger.json');
 
 const app = express();
-// app.use(express.static(pathToSwaggerUi));
+app.use(express.static(pathToSwaggerUi));
 // middlewares
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
@@ -35,7 +35,7 @@ mongoose.connect(MONGO_CONNECT_URI).then(()=> {
     console.log('mongoDB connect successfully');
 });
 // routes
-app.use('/doc', swaggerUI.serve, swaggerUI.setup(swaggerJson));
+// app.use('/doc', swaggerUI.serve, swaggerUI.setup(swaggerJson));
 app.use('/auth', authRouter);
 app.use('/comments', commentsRouter);
 app.use('/posts', postsRouter);

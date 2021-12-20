@@ -1,0 +1,28 @@
+version: "3.7"
+
+services:
+  app:
+    build:
+      context: .
+    env_file:
+      - .env
+    restart: on-failure
+    volumes:
+      - ./backend:/app
+      - app/node_modules
+    command: >
+      node app.js
+  web:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    restart: on-failure
+    volumes:
+      - ./nginx.conf:/ect/nginx/conf.d/default.conf
+  swagger:
+    image: swaggerapi/swagger-ui
+    environment:
+      - SWAGGER_JSON=/swagger.json
+    volumes:
+      - ./backend/doc/swagger.json:/swagger.json
+
