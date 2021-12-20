@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "Sigma test-task",
+    "title": "Social_App API (from PettersonApps)",
     "description": "Create REST API. Implement authorization and CRUD for users ",
     "contact": {
       "name": "Dmytro",
@@ -326,6 +326,101 @@
         }
       }
     },
+    "/posts/{postId}/comments": {
+      "get": {
+        "tags": [
+          "posts"
+        ],
+        "summary": "Get comments to post",
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "description": "ID of post to return",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "comment to posts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommentBodyModels"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Just an error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/commonErrors"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "posts"
+        ],
+        "summary": "Returns a object of created comment",
+        "description": "comment object that needs to be added",
+       "parameters": [
+         {
+           "name": "postId",
+           "in": "path",
+           "description": "ID of post to return",
+           "required": true,
+           "schema": {
+             "type": "string"
+           }
+         }
+       ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "body": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Post was created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommentBodyModels"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Just an error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/commonErrors"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/comments": {
       "get": {
         "tags": [
@@ -463,47 +558,6 @@
           },
           "404": {
             "description": "Post not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/commonErrors"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/posts/{postId}/comments": {
-      "get": {
-        "tags": [
-          "posts"
-        ],
-        "summary": "Get comments to post",
-        "parameters": [
-          {
-            "name": "postId",
-            "in": "path",
-            "description": "ID of post to return",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "comment to posts",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CommentBodyModels"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Just an error",
             "content": {
               "application/json": {
                 "schema": {
@@ -1026,7 +1080,7 @@
             "description": "MongoDB ID",
             "example": "12345qwerty"
           },
-          "posy_id": {
+          "post_id": {
             "type": "string",
             "description": "MongoDB ID of the user to whom the post belongs",
             "example": "12345qwerty"
