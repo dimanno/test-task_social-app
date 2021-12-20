@@ -4,6 +4,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const swaggerUI = require('swagger-ui-express');
+// const pathToSwaggerUi = require('swagger-ui-dist').absolutePath();
 
 require('dotenv').config();
 
@@ -14,6 +15,7 @@ const addDefaultUser = require('./handler/default.user');
 const swaggerJson = require('./doc/swagger.json');
 
 const app = express();
+// app.use(express.static(pathToSwaggerUi));
 // middlewares
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
