@@ -98,8 +98,8 @@
         "tags": [
           "posts"
         ],
-        "summary": "Get all posts",
-        "operationId": "get posts",
+        "summary": "Returns a list of posts",
+        "description": "get posts",
         "responses": {
           "200": {
             "description": "All posts",
@@ -130,22 +130,14 @@
         "tags": [
           "posts"
         ],
-        "summary": "Create post",
-        "description": "post object that needs to be added",
-        "operationId": "add Post",
-        "security": [],
-        "parameters": [
+        "security": [
           {
-            "name": "Authorization",
-            "in": "header",
-            "description": "This is `access-token` from POST /auth",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "default": "token"
-            }
+            "ApiKeyAuth": []
           }
         ],
+        "summary": "Returns a object of created post",
+        "description": "post object that needs to be added",
+        "operationId": "add Post",
         "requestBody": {
           "content": {
             "application/json": {
@@ -185,19 +177,14 @@
         "tags": [
           "posts"
         ],
-        "summary": "Get post",
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "Returns a object of post by id",
         "description": "get post by Id",
         "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "This is `access-token` from POST /auth",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "default": "token"
-            }
-          },
           {
             "name": "postId",
             "in": "path",
@@ -238,8 +225,146 @@
         "tags": [
           "posts"
         ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
         "summary": "Update posts by id",
-        "operationId": "update post",
+        "description": "update post",
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "description": "ID of post to return",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "post is updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostBodyModels"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Just an error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/commonErrors"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/commonErrors"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "posts"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "Delete post by id",
+        "description": "delete post",
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "description": "ID of post to return",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "post was deleted",
+            "content": {}
+          },
+          "400": {
+            "description": "Invalid ID supplied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/commonErrors"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Post not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/commonErrors"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/comments": {
+      "get": {
+        "tags": [
+          "comments"
+        ],
+        "summary": "Get all comments",
+        "responses": {
+          "200": {
+            "description": "All comments",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CommentBodyModels"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Just an error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/commonErrors"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/comments/{commentsId}": {
+      "put": {
+        "tags": [
+          "comments"
+        ],
+        "summary": "Update comment by id",
         "parameters": [
           {
             "name": "Authorization",
@@ -296,10 +421,10 @@
       },
       "delete": {
         "tags": [
-          "posts"
+          "comments"
         ],
         "summary": "Delete post by id",
-        "operationId": "delete post",
+        "description": "delete post",
         "parameters": [
           {
             "name": "Authorization",
@@ -395,20 +520,8 @@
         "tags": [
           "users"
         ],
-        "summary": "Get all users",
+        "summary": "Returns a list of users",
         "description": "getUsers",
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "This is `access-token` from POST /auth",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "default": "token"
-            }
-          }
-        ],
         "responses": {
           "200": {
             "description": "All users",
@@ -442,47 +555,36 @@
         "summary": "Create user",
         "description": "user object that needs to be added",
         "operationId": "addUser",
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "This is `access-token` from POST /auth",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "default": "token"
-            }
-          }
-        ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
                 "required": [
-                  "age",
-                  "email",
                   "name",
+                  "username",
+                  "email",
                   "password"
                 ],
                 "properties": {
+                  "name": {
+                    "type": "string",
+                    "default": "admin"
+                  },
+                  "username": {
+                    "type": "string",
+                    "default": "admin_test"
+                  },
                   "email": {
                     "type": "string",
-                    "description": "User email",
                     "default": "admin@gmail.com"
                   },
                   "password": {
                     "type": "string",
-                    "description": "User password",
                     "default": "12345Az$"
                   },
-                  "name": {
+                  "city": {
                     "type": "string",
-                    "description": "User name",
-                    "default": "name"
-                  },
-                  "age": {
-                    "type": "number",
-                    "description": "User age"
+                    "default": "Lviv"
                   }
                 }
               }
@@ -519,19 +621,14 @@
         "tags": [
           "users"
         ],
-        "summary": "Get user by id",
-        "operationId": "getUser",
-        "parameters": [
+        "security": [
           {
-            "name": "Authorization",
-            "in": "header",
-            "description": "This is `access-token` from POST /auth",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "default": "token"
-            }
-          },
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "Return user object",
+        "description": "getUser",
+        "parameters": [
           {
             "name": "userId",
             "in": "path",
@@ -579,19 +676,14 @@
         "tags": [
           "users"
         ],
-        "summary": "Update user by id",
-        "operationId": "updateUser",
-        "parameters": [
+        "security": [
           {
-            "name": "Authorization",
-            "in": "header",
-            "description": "This is access-token from POST /auth",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "default": "token"
-            }
-          },
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "Update user by id",
+        "description": "updateUser",
+        "parameters": [
           {
             "name": "userId",
             "in": "path",
@@ -639,19 +731,14 @@
         "tags": [
           "users"
         ],
-        "summary": "Delete user by id",
-        "operationId": "deleteUser",
-        "parameters": [
+        "security": [
           {
-            "name": "Authorization",
-            "in": "header",
-            "description": "This is access-token from POST /auth",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "default": "token"
-            }
-          },
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "Delete user by id",
+        "description": "deleteUser",
+        "parameters": [
           {
             "name": "userId",
             "in": "path",
@@ -690,37 +777,139 @@
         }
       }
     },
+    "/users/{userId}/follow": {
+      "put": {
+        "tags": [
+          "users"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "Follow the user",
+        "description": "the user ID to be follow is transmitted in the link. The ID of the user who wants to monitor is passed in the body of the request",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID of user to be follow",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "the user ID ,who wants to follow",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string",
+                "properties": {
+                  "_id": {
+                    "type": "string",
+                    "description": "MongoDB ID"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successfully",
+            "content": {}
+          },
+          "400": {
+            "description": "Just an error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/commonErrors"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{userId}/unfollow": {
+      "put": {
+        "tags": [
+          "users"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "Unfollow the user",
+        "description": "the user ID to be unfollow is transmitted in the link. The ID of the user who wants to monitor is passed in the body of the request",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID of user to be unfollow",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "the user ID ,who wants to unfollow",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string",
+                "properties": {
+                  "_id": {
+                    "type": "string",
+                    "description": "MongoDB ID"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successfully",
+            "content": {}
+          },
+          "400": {
+            "description": "Just an error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/commonErrors"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/users/{userId}/posts": {
       "get": {
         "tags": [
           "users"
         ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
         "summary": "Get users posts",
         "description": "get post",
         "parameters": [
           {
-            "name": "Authorization",
-            "in": "header",
-            "description": "This is `access-token` from POST /auth",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "default": "token"
-            }
-          },
-          {
             "name": "userId",
             "in": "path",
             "description": "ID of user to return",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "postId",
-            "in": "path",
-            "description": "ID of post to return",
             "required": true,
             "schema": {
               "type": "string"
@@ -821,8 +1010,8 @@
             "type": "string",
             "example": "admin"
           },
-          "age": {
-            "type": "number"
+          "city": {
+            "type": "string"
           }
         }
       },
@@ -865,6 +1054,14 @@
             "example": 400
           }
         }
+      }
+    },
+    "securitySchemes": {
+      "ApiKeyAuth": {
+        "description": "Enter JWT access token",
+        "type": "apiKey",
+        "in": "header",
+        "name": "authorization"
       }
     }
   }
