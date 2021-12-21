@@ -1,7 +1,7 @@
-const {O_Auth} = require('../models');
+const {O_Auth, User} = require('../models');
 const {jwtService: {generateTokenPair}} = require('../services');
 const {userNormalize} = require('../handler');
-const {statusCodeResponse, tokenTypeAuth: {REFRESH, ACCESS}} = require('../constants');
+const {messageResponse, statusCodeResponse, tokenTypeAuth: {REFRESH, ACCESS}} = require('../constants');
 
 module.exports = {
     login: async (req, res, next) => {
@@ -60,4 +60,15 @@ module.exports = {
             next(e);
         }
     },
+
+    activateUser: async (req, res, next) => {
+        try {
+            const {_id} = req.user;
+            await User.updateOne({_id}, {isActive: true});
+
+            res.status(200).json(messageResponse.ACTIVE_USER);
+        } catch (e) {
+            next(e);
+        }
+    }
 };

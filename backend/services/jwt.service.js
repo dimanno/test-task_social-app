@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const {tokenTypeAuth, actionToken, actionTokens} = require('../constants');
+const {tokenTypeAuth, actionTokens} = require('../constants');
 const {JWT_ACCESS_SECRET, JWT_REFRESH_SECRET, JWT_ACTIVATE_SECRET} = require('../config/config');
 const {messageResponse, statusCodeResponse} = require('../constants');
 const ErrorHandler = require('../errors/errorHandler');
@@ -26,7 +26,7 @@ module.exports = {
                 case tokenTypeAuth.REFRESH:
                     secret = JWT_REFRESH_SECRET;
                     break;
-                case actionToken.ACTIVATE_USER:
+                case actionTokens.ACTIVATE_USER:
                     secret = JWT_ACTIVATE_SECRET;
                     break;
             }

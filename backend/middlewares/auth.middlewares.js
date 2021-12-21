@@ -1,7 +1,7 @@
-const {messageResponse, statusCodeResponse, constants} = require('../constants');
+const {messageResponse, statusCodeResponse, constants, actionTokens,} = require('../constants');
 const ErrorHandler = require('../errors/errorHandler');
 const {passwordService: {compare}, jwtService} = require('../services');
-const {O_Auth} = require('../models');
+const {O_Auth, ActionTokens} = require('../models');
 
 module.exports = {
 
@@ -39,6 +39,31 @@ module.exports = {
             req.user = responseToken;
             req.token = token;
 
+            next();
+        } catch (e) {
+            next(e);
+        }
+    },
+
+    checkActionToken: (tokenActionType) => async (req, res, next) => {
+        try {
+            let token = req.get(constants.AUTHORIZATION);
+
+            if (tokenActionType === actionTokens.ACTIVATE_USER) {
+                token = req.params.token;
+            }
+
+            await jwtService.verifyToken({token}, tokenActionType);
+            const {user_id: user, _id} = await ActionTokens
+                .findOne({token, type: tokenActionType})
+                .populate('user_id');
+
+            if (!user) {
+                throw new ErrorHandler(messageResponse.INVALID_TOKEN, statusCodeResponse.INVALID_CLIENT);
+            }
+
+            await ActionTokens.deleteOne({_id});
+            req.user = user;
             next();
         } catch (e) {
             next(e);

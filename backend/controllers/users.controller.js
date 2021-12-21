@@ -11,15 +11,15 @@ module.exports = {
 
             const newUser = await User.createUserWithHashPassword(req.body);
             const userNormalise = userNormalize(newUser.toJSON());
-            const activate_token = jwtService.generateActionToken({email}, actionTokens.ACTIVATE_USER);
-            console.log(activate_token);
+            const token = jwtService.generateActionToken({email}, actionTokens.ACTIVATE_USER);
+
             await ActionTokens.create({
-                token: activate_token,
+                token,
                 type: actionTokens.ACTIVATE_USER,
                 user_id: userNormalise._id
             });
 
-            await sendEmail(email, emailAction.WELCOME, {userName: name, activate_token});
+            await sendEmail(email, emailAction.WELCOME, {userName: name, token});
 
             res.status(statusCodeResponse.CREATED).json(userNormalise);
         } catch (e) {
