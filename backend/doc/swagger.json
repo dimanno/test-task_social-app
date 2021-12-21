@@ -635,7 +635,7 @@
                   },
                   "username": {
                     "type": "string",
-                    "default": "admin_test"
+                    "default": "adminTest"
                   },
                   "email": {
                     "type": "string",

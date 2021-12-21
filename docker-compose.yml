@@ -6,6 +6,7 @@ services:
       context: .
     env_file:
       - .env
+      - ./backend/.env
     restart: on-failure
     volumes:
       - ./backend:/app
@@ -18,7 +19,7 @@ services:
       - "80:80"
     restart: on-failure
     volumes:
-      - ./nginx.conf:/ect/nginx/conf.d/default.conf
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
   swagger:
     image: swaggerapi/swagger-ui
     environment:
