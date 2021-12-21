@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
-const {tokenTypeEnum: {ACCESS}} = require('../constants');
-const {JWT_ACCESS_SECRET, JWT_REFRESH_SECRET} = require('../config/config');
+const {tokenTypeAuth, actionToken, actionTokens} = require('../constants');
+const {JWT_ACCESS_SECRET, JWT_REFRESH_SECRET, JWT_ACTIVATE_SECRET} = require('../config/config');
 const {messageResponse, statusCodeResponse} = require('../constants');
 const ErrorHandler = require('../errors/errorHandler');
 
@@ -16,12 +16,33 @@ module.exports = {
         };
     },
 
-    verifyToken: async (token, tokenType = ACCESS) => {
+    verifyToken: async (token, tokenType = tokenTypeAuth.ACCESS) => {
         try {
-            const secret = tokenType === ACCESS ? JWT_ACCESS_SECRET : JWT_REFRESH_SECRET;
+            let secret = '';
+            switch (tokenType) {
+                case tokenTypeAuth.ACCESS:
+                    secret = JWT_ACCESS_SECRET;
+                    break;
+                case tokenTypeAuth.REFRESH:
+                    secret = JWT_REFRESH_SECRET;
+                    break;
+                case actionToken.ACTIVATE_USER:
+                    secret = JWT_ACTIVATE_SECRET;
+                    break;
+            }
             await jwt.verify(token, secret);
         } catch (e) {
             throw new ErrorHandler(messageResponse.INVALID_TOKEN, statusCodeResponse.INVALID_CLIENT);
         }
+    },
+
+    generateActionToken: (payload, actionToken) => {
+        let secret = '';
+        switch (actionToken) {
+            case actionTokens.ACTIVATE_USER:
+                secret = JWT_ACTIVATE_SECRET;
+                break;
+        }
+        return jwt.sign({}, secret, {expiresIn: '1d'});
     }
 };

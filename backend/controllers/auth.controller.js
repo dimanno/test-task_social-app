@@ -1,7 +1,7 @@
 const {O_Auth} = require('../models');
 const {jwtService: {generateTokenPair}} = require('../services');
 const {userNormalize} = require('../handler');
-const {statusCodeResponse, tokenTypeEnum: {REFRESH, ACCESS}} = require('../constants');
+const {statusCodeResponse, tokenTypeAuth: {REFRESH, ACCESS}} = require('../constants');
 
 module.exports = {
     login: async (req, res, next) => {

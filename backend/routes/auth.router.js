@@ -1,9 +1,9 @@
 const router = require('express').Router();
 
 const {authController} = require('../controllers');
-const {authMiddlewares, universalMiddlewares, usersMiddlewares} = require('../middlewares')
+const {authMiddlewares, universalMiddlewares, usersMiddlewares} = require('../middlewares');
 const {authValidators:{authValidator}} = require('../validators');
-const {REFRESH, ACCESS} = require('../constants/tokens.type.enum');
+const {REFRESH, ACCESS} = require('../constants/tokens.type.auth');
 
 router.post('/', universalMiddlewares.checkValidDataMiddleware(authValidator),
     usersMiddlewares.isUserPresent,

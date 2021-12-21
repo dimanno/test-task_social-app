@@ -1,19 +1,25 @@
-const {User} = require('../models');
-const {O_Auth} = require('../models');
-const {emailService: {sendEmail}} = require('../services');
+const {User, O_Auth, ActionTokens} = require('../models');
+const {emailService: {sendEmail}, jwtService} = require('../services');
 const {userNormalize} = require('../handler');
-const {statusCodeResponse} = require('../constants');
-const {emailAction} = require('../constants');
+const {statusCodeResponse, emailAction, actionTokens} = require('../constants');
 
 module.exports = {
 
     addUser: async (req, res, next) => {
         try {
+            const {name, email} = req.body;
 
             const newUser = await User.createUserWithHashPassword(req.body);
             const userNormalise = userNormalize(newUser.toJSON());
+            const activate_token = jwtService.generateActionToken({email}, actionTokens.ACTIVATE_USER);
+            console.log(activate_token);
+            await ActionTokens.create({
+                token: activate_token,
+                type: actionTokens.ACTIVATE_USER,
+                user_id: userNormalise._id
+            });
 
-            await sendEmail(newUser.email, emailAction.WELCOME, {userName: newUser.name});
+            await sendEmail(email, emailAction.WELCOME, {userName: name, activate_token});
 
             res.status(statusCodeResponse.CREATED).json(userNormalise);
         } catch (e) {

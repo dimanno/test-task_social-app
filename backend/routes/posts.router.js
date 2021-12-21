@@ -2,7 +2,7 @@ const router = require('express').Router();
 
 const {postsController, commentsController} = require('../controllers');
 const {authMiddlewares, universalMiddlewares, postMiddlewares} = require('../middlewares');
-const {ACCESS} = require('../constants/tokens.type.enum');
+const {ACCESS} = require('../constants/tokens.type.auth');
 const {postValidators, commentValidators} = require('../validators');
 
 router.get('/', postsController.getAllPosts);

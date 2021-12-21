@@ -3,7 +3,7 @@ const router = require('express').Router();
 const {usersController, postsController} = require('../controllers');
 const {usersMiddlewares, universalMiddlewares, authMiddlewares} = require('../middlewares');
 const {userValidators: {addUser_validator, updateUserValidator}} = require('../validators');
-const {tokenTypeEnum} = require('../constants');
+const {tokenTypeAuth} = require('../constants');
 
 router.post('/',
     universalMiddlewares.checkValidDataMiddleware(addUser_validator),
@@ -13,7 +13,7 @@ router.get('/', usersController.getUsers);
 
 router.get('/:user_id', usersMiddlewares.checkUserById, usersController.getUserById);
 
-router.use(authMiddlewares.checkToken(tokenTypeEnum.ACCESS));
+router.use(authMiddlewares.checkToken(tokenTypeAuth.ACCESS));
 router.put('/:user_id',
     universalMiddlewares.checkValidDataMiddleware(updateUserValidator),
     usersController.updateUser);
