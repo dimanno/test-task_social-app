@@ -6,7 +6,6 @@ services:
       context: .
     env_file:
       - .env
-      - ./backend/.env
     restart: on-failure
     volumes:
       - ./backend:/app
