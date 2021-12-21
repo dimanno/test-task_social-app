@@ -78,12 +78,12 @@ module.exports = {
     follow: async (req, res, next) => {
         try {
 
-            const {_id} = req.body;
+            const {id} = req.body;
 
             const {user_id} = req.params;
             const user = await User.findById(user_id);
 
-            await user.updateOne({$push: {followers: _id}});
+            await user.updateOne({$push: {followers: id}});
             await req.body.updateOne({$push: {followings: user_id}});
 
             res.status(200).json('user has been followed');
