@@ -36,10 +36,10 @@ mongoose.connect(MONGO_CONNECT_URI).then(()=> {
 });
 // routes
 // app.use('/doc', swaggerUI.serve, swaggerUI.setup(swaggerJson));
-app.use('/auth', authRouter);
-app.use('/comments', commentsRouter);
-app.use('/posts', postsRouter);
-app.use('/users', usersRouter);
+app.use('/api/auth', authRouter);
+app.use('/api/comments', commentsRouter);
+app.use('/api/posts', postsRouter);
+app.use('/api/users', usersRouter);
 
 
 // eslint-disable-next-line no-unused-vars
