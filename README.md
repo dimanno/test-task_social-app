@@ -1,6 +1,6 @@
 # REST API
-## _Test task from PettersenApps_
-#### Create REST API for simple social network
+## _Test task
+#### REST API for simple social network
 
 ## Tech
 
