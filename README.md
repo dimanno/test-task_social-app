@@ -38,4 +38,4 @@ $ docker-compose up
 
 ## Documentation
 
-http://socialnetworkapi-env.eba-ptmma2bc.us-east-1.elasticbeanstalk.com/docs/
+http://apisocialnetwork-env.eba-49btrmif.us-east-1.elasticbeanstalk.com/docs/
