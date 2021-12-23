@@ -29,6 +29,7 @@ module.exports = {
     updateComment: async (req, res, next) => {
         try {
             const comment = req.body;
+            console.log(comment);
             const {comment_id} = req.params;
 
             const commentUpdated = await Comment.updateData(comment_id, comment, {new: true});

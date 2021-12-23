@@ -477,7 +477,7 @@
         }
       }
     },
-    "/comments/{commentsId}": {
+    "/comments/{commentId}": {
       "put": {
         "tags": [
           "comments"
@@ -487,20 +487,34 @@
           {
             "name": "commentId",
             "in": "path",
-            "description": "ID of post to return",
+            "description": "ID of comment to return",
             "required": true,
             "schema": {
               "type": "string"
             }
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "body": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "comment is updated",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PostBodyModels"
+                  "$ref": "#/components/schemas/CommentBodyModels"
                 }
               }
             }
@@ -544,6 +558,21 @@
             }
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "role": {
+                    "type": "string",
+                    "default": "admin"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "comment was deleted",

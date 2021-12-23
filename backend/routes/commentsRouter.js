@@ -8,9 +8,10 @@ router.get('/',
     commentMiddleware.isCommentsExist,
     commentsController.getAllComments);
 
-router.use(usersMiddlewares.checkUserRole(ADMIN));
-
 router.put('/:comment_id', commentMiddleware.isCommentExist, commentsController.updateComment);
-router.delete('/:comment_id', commentMiddleware.isCommentExist, commentsController.deleteComment);
+router.delete('/:comment_id',
+    usersMiddlewares.checkUserRole(ADMIN),
+    commentMiddleware.isCommentExist,
+    commentsController.deleteComment);
 
 module.exports = router;
