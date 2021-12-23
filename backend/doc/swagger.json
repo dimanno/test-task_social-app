@@ -485,17 +485,7 @@
         "summary": "Update comment by id",
         "parameters": [
           {
-            "name": "Authorization",
-            "in": "header",
-            "description": "This is access-token from POST /auth",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "default": "token"
-            }
-          },
-          {
-            "name": "postId",
+            "name": "commentId",
             "in": "path",
             "description": "ID of post to return",
             "required": true,
@@ -506,7 +496,7 @@
         ],
         "responses": {
           "200": {
-            "description": "post is updated",
+            "description": "comment is updated",
             "content": {
               "application/json": {
                 "schema": {
@@ -541,21 +531,11 @@
         "tags": [
           "comments"
         ],
-        "summary": "Delete post by id",
-        "description": "delete post",
+        "summary": "Delete comment by id",
+        "description": "delete comment",
         "parameters": [
           {
-            "name": "Authorization",
-            "in": "header",
-            "description": "This is access-token from POST /auth",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "default": "token"
-            }
-          },
-          {
-            "name": "postId",
+            "name": "commentId",
             "in": "path",
             "description": "ID of post to return",
             "required": true,
@@ -566,7 +546,7 @@
         ],
         "responses": {
           "200": {
-            "description": "post was deleted",
+            "description": "comment was deleted",
             "content": {}
           },
           "400": {
