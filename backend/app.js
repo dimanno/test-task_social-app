@@ -16,6 +16,7 @@ const addDefaultUser = require('./handler/default.user');
 
 const app = express();
 app.use(express.static(pathToSwaggerUi));
+
 // middlewares
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
