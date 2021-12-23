@@ -38,4 +38,4 @@ $ docker-compose up
 
 ## Documentation
 
-http://pettersenappstestproject-env.eba-29ffg3k3.us-east-1.elasticbeanstalk.com/docs/
+http://socialnetworkapi-env.eba-ptmma2bc.us-east-1.elasticbeanstalk.com/docs/
