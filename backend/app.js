@@ -6,7 +6,7 @@ const rateLimit = require('express-rate-limit');
 // const swaggerUI = require('swagger-ui-express');
 const pathToSwaggerUi = require('swagger-ui-dist').absolutePath();
 
-require('dotenv').config();
+// require('dotenv').config();
 
 const {usersRouter, authRouter, postsRouter, commentsRouter} = require('./routes');
 const {PORT, MONGO_CONNECT_URI, ALLOWED_ORIGIN, NODE_ENV} = require('./config/config');

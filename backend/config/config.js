@@ -1,7 +1,7 @@
 module.exports = {
     NODE_ENV: process.env.NODE_ENV || 'dev',
 
-    PORT: process.env.PORT || 5500,
+    PORT: process.env.PORT || 5050,
     MONGO_CONNECT_URI: process.env.MONGO_CONNECT_URI || 'mongodb://localhost:27017/social_app',
 
     DEFAULT_USER_PASSWORD: process.env.DEFAULT_USER_PASSWORD,
